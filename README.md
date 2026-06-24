@@ -1,36 +1,102 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# TodoApp
+
+A simple todo app I built for tracking college tasks.
+
+## Screenshots
+
+
+![Dashboard](./public/screenshots/dashboard.png)
+
+## Features
+
+- **Sign up / Sign in** with email + password (Supabase Auth)
+- **Add tasks** with title, optional due date, and priority (Low / Medium / High)
+- **Edit, toggle complete, delete** tasks
+- **Tabs**: All / Today (due today) / Done (completed)
+- **Search** tasks by title (case-insensitive, with clear button)
+- **Sort**: Due date (asc/desc), Priority, or Newest
+- **Duplicate detection**: blocks creating a task with the same name as an active one
+- **Sign out** via Avatar dropdown
+
+## Tech Stack
+
+- **Next.js 16** (App Router, Turbopack)
+- **React 19**
+- **TypeScript**
+- **Tailwind CSS v4**
+- **shadcn/ui** (base-nova preset) + **lucide-react** icons
+- **Supabase** (Auth + Postgres + Row-Level Security)
 
 ## Getting Started
 
-First, run the development server:
+### 1. Install
+
+```bash
+npm install
+```
+
+### 2. Set up Supabase
+
+1. Create a project at [supabase.com](https://supabase.com)
+2. Copy your **Project URL** and **Publishable key** from `Settings → API`
+3. Create `.env.local`:
+   ```
+   NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=sb_publishable_xxx
+   ```
+4. In the Supabase dashboard, open **SQL Editor → New query** and run the schema + RLS policy from the project docs (you should have received them with the code — paste them in).
+
+### 3. Run
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) → sign up → start adding tasks.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+todoApp/
+├── app/
+│   ├── page.tsx               ← landing
+│   ├── login/, signup/        ← auth pages
+│   ├── dashboard/             ← main app (CRUD + tabs + search + sort)
+│   ├── auth/callback/         ← (placeholder for future OAuth)
+│   └── api/dbg/               ← DEBUG only — DELETE in V1.0
+├── lib/supabase/              ← Supabase clients (client / server / middleware)
+├── proxy.ts                   ← route protection (Next.js 16)
+└── components/ui/             ← shadcn components
+```
 
-## Learn More
+## Deploy
 
-To learn more about Next.js, take a look at the following resources:
+### Vercel (recommended for Next.js)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Push to GitHub
+2. Import to [Vercel](https://vercel.com)
+3. Add environment variables:
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+4. Add a **Supabase redirect URL** for production:
+   - In Supabase dashboard → `Authentication → URL Configuration`
+   - Add `https://your-app.vercel.app/auth/callback`
+5. Deploy
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Roadmap
 
-## Deploy on Vercel
+- [ ] Time-left countdown for due dates
+- [ ] V1.0: clean up debug code and add tests before sharing publicly
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## License
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MIT
+
+## Acknowledgments
+
+- [Next.js](https://nextjs.org) — the framework
+- [Supabase](https://supabase.com) — auth + database + RLS
+- [shadcn/ui](https://ui.shadcn.com) — component library
+- [Tailwind CSS](https://tailwindcss.com) — styling
+- [lucide](https://lucide.dev) — icons
+- [Vercel](https://vercel.com) — hosting (recommended)

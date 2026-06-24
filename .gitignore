@@ -39,3 +39,18 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# AI agent / scaffolding leftovers (create-next-app generates these, not for Vercel)
+AGENTS.md
+CLAUDE.md
+
+# Personal learning docs — keep these in ../summary/ instead of product repo
+PAGE_*.md
+COMPONENTS.md
+REQUIREMENTS.md
+COLOR_*.md
+ROUTING_*.md
+*.superseded.md
+
+# One-off create-next-app leftovers (sample image at root)
+image.png
