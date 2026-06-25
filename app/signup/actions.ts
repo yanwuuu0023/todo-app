@@ -14,7 +14,6 @@ export async function signUpAction(
   const email = (formData.get("email") as string)?.trim()
   const password = formData.get("password") as string
 
-  // 服务端验证（即使前端 required/minLength 也再检查一次）
   if (!email || !password) {
     return { error: "Email and password are required." }
   }
@@ -29,10 +28,9 @@ export async function signUpAction(
   })
 
   if (error) {
-    // 不区分"邮箱已注册"和"其他错误" — 防枚举攻击
+    // Don't distinguish "email already registered" vs other errors — prevent enumeration
     return { error: "Could not create account. Please check your details." }
   }
 
-  // 注册成功 → 跳 dashboard
   redirect("/dashboard")
 }

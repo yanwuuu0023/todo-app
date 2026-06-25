@@ -33,7 +33,6 @@ export async function updateSession(request: NextRequest): Promise<{
     },
   )
 
-  // 关键：调 getUser() 既刷新 session 又拿到 user
   const {
     data: { user },
   } = await supabase.auth.getUser()

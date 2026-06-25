@@ -18,8 +18,7 @@ export async function createClient() {
               cookieStore.set(name, value, options)
             })
           } catch {
-            // Server Component 里 setAll 会失败
-            // （中间件会接管 cookie 刷新，按官方建议吞掉错误）
+            // setAll fails in Server Components — middleware handles cookie refresh
           }
         },
       },

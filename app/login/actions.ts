@@ -25,7 +25,7 @@ export async function signInAction(
   })
 
   if (error) {
-    // 不区分"邮箱不存在"和"密码错" — 防枚举
+    // Don't distinguish "email not found" vs "wrong password" — prevent enumeration
     return { error: "Invalid email or password." }
   }
 

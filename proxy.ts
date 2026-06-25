@@ -9,13 +9,10 @@ import { updateSession } from "@/lib/supabase/middleware"
 // Currently: email confirm is OFF + no OAuth → this route is not needed.
 
 export async function proxy(request: NextRequest) {
-  // 1. 刷新 Supabase session + 拿到 user
   const { response, user } = await updateSession(request)
 
   const { pathname } = request.nextUrl
 
-  // 2. 已登录保护：已登录用户访问登录相关页面 → 跳 /dashboard
-  //    （这是 Step 7 的内容，提前做，因为有真实 bug）
   const authPages = ["/login", "/signup"]
   if (user && authPages.includes(pathname)) {
     const url = request.nextUrl.clone()
@@ -23,7 +20,6 @@ export async function proxy(request: NextRequest) {
     return Response.redirect(url)
   }
 
-  // 3. 未登录保护：未登录访问受保护页面 → 跳 /login
   const protectedPaths = ["/dashboard", "/settings"]
   const isProtected = protectedPaths.some((p) => pathname.startsWith(p))
   if (!user && isProtected) {

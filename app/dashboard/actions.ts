@@ -93,7 +93,6 @@ export async function signOut(): Promise<ActionResult> {
   const { error } = await supabase.auth.signOut()
   if (error) return { error: error.message }
 
-  // 关键：layout 级 revalidate 让中间件重新读 session
   revalidatePath("/", "layout")
   redirect("/")
 }
